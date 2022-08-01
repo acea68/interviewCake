@@ -19,11 +19,11 @@ class WordCloudData {
   }
 
   populateWordsToCounts(inputString) {
-    let wordStartIndex = 0;
+    let wordStartIndex = 0; // split words from input string
     let wordLen = 0;
     for (let i = 0; i < inputString.length; i++) {
       let char = inputString[i];
-      if (i === inputString.length - 1) {
+      if (i === inputString.length - 1) { // last letter: punctuation or letter?
         if (this.isLetter(char)) {
           wordLen++;
         }
@@ -31,7 +31,7 @@ class WordCloudData {
           let word = inputString.slice(wordStartIndex, wordStartIndex + wordLen);
           this.addWordToMap(word);
         }
-      } else if (char === ' ' || char === '—') { // checks for em dash = option + shift + dash
+      } else if (char === ' ' || char === '—') { // checks for em dash: option + shift + dash -OR- '\u2014'
         if (wordLen > 0) {
           let word = inputString.slice(wordStartIndex, wordStartIndex + wordLen);
           this.addWordToMap(word);
