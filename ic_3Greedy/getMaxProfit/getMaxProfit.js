@@ -20,44 +20,59 @@ getMaxProfit(stockPrices);
 JavaScript
 No "shorting"—you need to buy before you can sell. Also, you can't buy and sell in the same time step—at least 1 minute has to pass. */
 
-function getMaxProfit(stockPrices) {
-  if (!stockPrices.length || stockPrices.length === 1) throw new Error('Please provide at least two valid stock prices.');
-  let min = max = potMax = potMin = stockPrices[0];
-  let index = minInd = maxInd = potMaxInd = potMinInd = 0;
-  while(index < stockPrices.length) {
-    if (stockPrices[index] > max) {
-      potMaxInd = index;
-      if (maxInd > minInd) {
-        max = stockPrices[index];
-        maxInd = potMaxInd;
-      }
-    }
-    if (stockPrices[index] < min) {
-      min = stockPrices[index];
-      minIndex = index;
-    }
-    index++;
+function getMaxProfit(stockPrices) { // SOLN
+  if (stockPrices.length < 2) throw new Error('Please provide at least two valid stock prices.');
+  let min = stockPrices[0];
+  let maxProfit = stockPrices[1] - min;
+  for (let i = 1; i < stockPrices.length; i++) {
+    let potProfit = stockPrices[i] - min;
+    maxProfit = Math.max(maxProfit, potProfit);
+    min = Math.min(min, stockPrices[i]);
   }
-  return max - min;
+  return maxProfit;
 }
+
+// function getMaxProfit(stockPrices) { // SOLN w/while loop
+//   if (stockPrices.length < 2) throw new Error('Please provide at least two valid stock prices.');
+// let min = stockPrices[0];
+// let maxProfit = stockPrices[1] - min;
+// let i = 1;
+//   while(i < stockPrices.length) {
+//     let potProfit = stockPrices[i] - min;
+//     maxProfit = Math.max(maxProfit, potProfit);
+//     min = Math.min(min, stockPrices[i]);
+//     i++;
+//   }
+//   return maxProfit;
+// }
 
 // function getMaxProfit(stockPrices) {
 //   if (!stockPrices.length || stockPrices.length === 1) throw new Error('Please provide at least two valid stock prices.');
-//   let min = max = potMax = potMin = stockPrices[0];
-//   let index = minIndex = maxIndex = potMaxInd = potMinInd = 0;
+//   let min = stockPrices[0];
+//   let max = stockPrices[1];
+//   let minInd = 0;
+//   let index = maxInd = 1;
+//   let profit = max - min;
 //   while(index < stockPrices.length) {
 //     if (stockPrices[index] > max) {
-//       maxIndex = index;
-//       max = stockPrices[index];
+//       if (index > minInd) {
+//         max = stockPrices[index];
+//         maxInd = index;
+//         profit = Math.max(profit, max - min);
+//       }
 //     }
 //     if (stockPrices[index] < min) {
-//       min = stockPrices[index];
-//       minIndex = index;
+//       if (minInd < maxInd) {
+//         min = stockPrices[index];
+//         minIndex = index;
+//       }
 //     }
 //     index++;
 //   }
-//   return max - min;
+//   return profit;
 // }
+
+
 
 
 
@@ -83,6 +98,7 @@ function getMaxProfit(stockPrices) {
 
 // Tests
 
+
 let desc = 'price goes up then down';
 let actual = getMaxProfit([1, 5, 3, 2]);
 let expected = 4;
@@ -104,13 +120,18 @@ expected = 8;
 assertEqual(actual, expected, desc);
 
 desc = 'price goes down all day';
-actual = getMaxProfit([9, 7, 4, 1]);
-expected = -2;
+actual = getMaxProfit([9, 7, 4, 3]);
+expected = -1;
 assertEqual(actual, expected, desc);
 
 desc = 'price stays the same all day';
 actual = getMaxProfit([1, 1, 1, 1]);
 expected = 0;
+assertEqual(actual, expected, desc);
+
+desc = 'price goes down then up then down the up';
+actual = getMaxProfit([10, 7, 5, 8, 11, 2, 12]);
+expected = 10;
 assertEqual(actual, expected, desc);
 
 desc = 'error with empty prices';

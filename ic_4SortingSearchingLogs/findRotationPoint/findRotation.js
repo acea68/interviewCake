@@ -59,7 +59,20 @@ function findRotationPoint(words) {
 // }
 
 function findRotationPoint(words) {
-  
+  let floorInd = 0;
+  let ceilInd = words.length - 1;
+  while (floorInd < ceilInd) {
+    let midInd = Math.floor(floorInd + (ceilInd - floorInd) / 2);
+    if (words[floorInd] > words[midInd]) { // go left
+      ceilInd = midInd;
+    } else { // pivot is right of midpoint
+      floorInd = midInd;
+    }
+    if (floorInd + 1 === ceilInd) {
+      break;
+    }
+  }
+  return ceilInd;
 }
 
 // function findRotationPoint(words) {
