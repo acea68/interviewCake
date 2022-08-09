@@ -59,17 +59,19 @@ function getPath(graph, startNode, endNode) {
   while (!!nodesToVisit.queue.length) {
     let currNode = nodesToVisit.dequeue(); // pop (remove) from back
     result.push(currNode); // potential node connecting to endNode
-    haveSeen.add(currNode);
     // adds neighbors to nodesToVisit queue
     for (let neighbor of graph[currNode]) {
-      if (!haveSeen.has(neighbor)) nodesToVisit.enqueue(neighbor);
+      if (!haveSeen.has(neighbor)) {
+        nodesToVisit.enqueue(neighbor);
+        haveSeen.add(neighbor);
+      }
     }
 
     if (nodesToVisit.queue.indexOf(endNode) !== -1) {
       result.push(endNode)
       return result;
     }
-    if (result[result.length - 1] !== startNode) result.pop();
+    if (result[result.length - 1] !== startNode) result.pop(); // may not work for chains > 2
   }
   return null;
 }
