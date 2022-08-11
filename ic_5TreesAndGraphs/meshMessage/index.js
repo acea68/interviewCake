@@ -47,16 +47,18 @@ class Queue {
 
 
 function getPath(graph, startNode, endNode) {
-  if (!graph[startNode] || !graph[endNode]) throw new Error('Please provide valid start and end nodes.');
+
+  if (!graph.hasOwnProperty(startNode) || !graph.hasOwnProperty(endNode)) throw new Error('Please provide valid start and end nodes.');
   if (startNode === endNode) return [startNode];
   let result = []; // array
 
   let nodesToVisit = new Queue(); // {'queue': array, 'size': int}
   nodesToVisit.enqueue(startNode); // unshift (add) to front
 
-  let haveSeen = new Set(startNode); // set
-
-  while (!!nodesToVisit.queue.length) {
+  let haveSeenFromWhere = {};
+  haveSeenFromWhere[startNode] = null;
+  
+  while (nodesToVisit.size > 0) {
     let currNode = nodesToVisit.dequeue(); // pop (remove) from back
     result.push(currNode); // potential node connecting to endNode
     // adds neighbors to nodesToVisit queue
@@ -85,38 +87,34 @@ function getPath(graph, startNode, endNode) {
 //   // if endNode is not found in neighbor node analysis, remove from result array
 //   // repeat process until you find endNode
 //   if (!graph[startNode] || !graph[endNode]) throw new Error('Please provide valid start and end nodes.');
-//   let result = [startNode]; // array
-//   let nodes = new Queue(); // {'queue': array, 'size': int}
+//   if (startNode === endNode) return [startNode];
+//   let result = []; // array
+
+//   let nodesToVisit = new Queue(); // {'queue': array, 'size': int}
+//   nodesToVisit.enqueue(startNode); // unshift (add) to front
+
 //   let haveSeen = new Set(startNode); // set
-//   for (let startingNeighbor of graph[startNode]) {
-//     nodes.enqueue(startingNeighbor);
-//     haveSeen.add(startingNeighbor);
-//   }
 
-//   while (nodes.queue.indexOf(endNode) === -1) {
-
-//     result.push(node); // potential node connecting to endNode
-
-//     for (let neighbor of graph[node]) {
-//       if (indexOf(result[neighbor]) < 0) {
-//         result.push(neighbor); // potential connection
-//         queue.add(neighbor)
-//         if (queue.has(endNode)) {
-//           result.push(endNode)
-//           return result;
-//         }
-//         result.pop(); // if you reach here, endNode was not found.
+//   while (!!nodesToVisit.queue.length) {
+//     let currNode = nodesToVisit.dequeue(); // pop (remove) from back
+//     result.push(currNode); // potential node connecting to endNode
+//     // adds neighbors to nodesToVisit queue
+//     for (let neighbor of graph[currNode]) {
+//       if (!haveSeen.has(neighbor)) {
+//         nodesToVisit.enqueue(neighbor);
+//         haveSeen.add(neighbor);
 //       }
-//       // remove from result & queue
 //     }
-//   }
 
-//   if (nodes.queue.indexOf(endNode) !== -1) {
-//     result.push(endNode)
-//     return result;
+//     if (nodesToVisit.queue.indexOf(endNode) !== -1) {
+//       result.push(endNode)
+//       return result;
+//     }
+//     if (result[result.length - 1] !== startNode) result.pop(); // may not work for chains > 2
 //   }
 //   return null;
 // }
+
 
 
 
