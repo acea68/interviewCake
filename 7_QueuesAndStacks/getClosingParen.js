@@ -7,14 +7,43 @@ Write a function that, given a sentence like the one above, along with the posit
 Example: if the example string above is input with the number 10 (position of the first parenthesis), the output should be 79 (position of the last parenthesis). */
 
 function getClosingParen(sentence, openingParenIndex) {
-
   // Find the position of the matching closing parenthesis
-
-
-  return 0;
+  let map = {};
+  let index = 0;
+  let matchMirror = 0;
+  while(index < sentence.length) {
+    if (sentence[index] === '(') {
+      if (map[index]) {
+        map[index]++;
+      } else {
+        map[index] = 1;
+      }
+    }
+    if (index === openingParenIndex) matchMirror = index;
+    if (index === 2 * matchMirror) return index;
+    index++;
+  }
+  throw new Error('No closing paren found.')
 }
 
+// function getClosingParen(sentence, openingParenIndex) {
+//   let openNestedParens = 0;
 
+//   for (let position = openingParenIndex + 1; position < sentence.length; position++) {
+//     const char = sentence[position];
+
+//     if (char === '(') {
+//       openNestedParens += 1;
+//     } else if (char === ')') {
+//       if (openNestedParens === 0) {
+//         return position;
+//       }
+//       openNestedParens -= 1;
+//     }
+//   }
+
+//   throw new Error('No closing parenthesis :(');
+// }
 
 
 
