@@ -15,12 +15,10 @@ function getClosingParen(sentence, openingParenIndex) {
       stack.push([sentence[i], i]);
     }
     if (char === ')') {
-      if (stack[stack.length - 1][0] === '(') {
-        if (stack[stack.length - 1][1] === openingParenIndex) {
-          return i;
-        } else {
-          stack.pop();
-        }
+      if (stack[stack.length - 1][1] === openingParenIndex) {
+        return i;
+      } else {
+        stack.pop();
       }
     }
   }
