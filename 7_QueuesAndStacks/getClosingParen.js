@@ -8,17 +8,15 @@ Example: if the example string above is input with the number 10 (position of th
 
 function getClosingParen(sentence, openingParenIndex) {
   // Find the position of the matching closing parenthesis
-  let stack = [];
-  for (let i = 0; i < sentence.length; i++) {
+  let pairCount = 0;
+  for (let i = openingParenIndex + 1; i < sentence.length; i++) {
     let char = sentence[i];
-    if (char === '(') {
-      stack.push([sentence[i], i]);
-    }
+    if (char === '(') pairCount++;
     if (char === ')') {
-      if (stack[stack.length - 1][1] === openingParenIndex) {
+      if (pairCount === 0) {
         return i;
       } else {
-        stack.pop();
+        pairCount--;
       }
     }
   }
@@ -27,90 +25,21 @@ function getClosingParen(sentence, openingParenIndex) {
 
 // function getClosingParen(sentence, openingParenIndex) {
 //   // Find the position of the matching closing parenthesis
-//   let left = [0, []];
-//   let right = [0, []];
+//   let stack = [];
 //   for (let i = 0; i < sentence.length; i++) {
-//     if (sentence[i] === '(') {
-//       left[0]++;
-//       left[1].push[i];
-//     }
-//     if (sentence[i] === ')') {
-//       right[0]++;
-//       right[1].push[i];
-//     }
-//   }
-//   console.log('left: ', left)
-//   console.log('right: ', right)
-// }
-
-// function getClosingParen(sentence, openingParenIndex) {
-//   // Find the position of the matching closing parenthesis
-//   let map = {};
-//   for (let i = 0; i < sentence.length; i++) {
-//     if (sentence[i] === '(') {
-//       if (map['(']) {
-//         map['('].count++;
-//         map['('].index.push(i);
-//       } else {
-//         map['('] = {count: 1, index: [i]}
-//       }
-//     }
-//     if (sentence[i] === ')') {
-//       if (map[')']) {
-//         map[')'].count++;
-//         map[')'].index.push(i);
-//       } else {
-//         map[')'] = {count: 1, index: [i]}
-//       }
-//     }
-//     // if (i === openingParenIndex) {
-//     //   return map[')'];
-//     // }
-//   }
-//   if (map['('].count !== map[')'].count) throw new Error('Improper use of parens. Needs matching pair.')
-//   console.log('map: ', map)
-//   // console.log("map[')'].index: ", map[')'].index)
-//   console.log('🚀 ~ map["("].index.indexOf(openingParenIndex)', map['('].index.indexOf(openingParenIndex));
-//   return map[')'].index[map['('].index.indexOf(openingParenIndex)];
-// }
-
-// function getClosingParen(sentence, openingParenIndex) {
-//   // Find the position of the matching closing parenthesis
-//   let map = {};
-//   let index = 0;
-//   let matchMirror = 0;
-//   while(index < sentence.length) {
-//     if (sentence[index] === '(') {
-//       if (map[index]) {
-//         map[index]++;
-//       } else {
-//         map[index] = 1;
-//       }
-//     }
-//     if (index === openingParenIndex) matchMirror = index;
-//     if (index === 2 * matchMirror) return index;
-//     index++;
-//   }
-//   throw new Error('No closing paren found.')
-// }
-
-// function getClosingParen(sentence, openingParenIndex) {
-//   let openNestedParens = 0;
-
-//   for (let position = openingParenIndex + 1; position < sentence.length; position++) {
-//     const char = sentence[position];
-
+//     let char = sentence[i];
 //     if (char === '(') {
-//       openNestedParens += 1;
-//     } else if (char === ')') {
-//       if (openNestedParens === 0) {
-//         return position;
+//       stack.push([sentence[i], i]);
+//     }
+//     if (char === ')') {
+//       if (stack[stack.length - 1][1] === openingParenIndex) {
+//         return i;
+//       } else {
+//         stack.pop();
 //       }
-//       openNestedParens -= 1;
 //     }
 //   }
-
-//   throw new Error('No closing parenthesis :(');
+//   throw new Error('Improper use of parens. Needs matching pair.');
 // }
 
 
